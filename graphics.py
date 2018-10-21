@@ -12,6 +12,7 @@ class Graphics:
         self.width = width
         self.height = height
         self.screen = None
+        self.clock = pygame.time.Clock()
         self.fullscreen = False
 
         self.TEXT = None
@@ -28,6 +29,7 @@ class Graphics:
         self.screen.fill(BLACK)
         self.render_text(self.TEXT, 100, 100, "Hello, Riddhi", hcenter=True)
         pygame.display.update()
+        self.clock.tick(60)
 
 
     def render_text(self, font, x, y, text, vcenter=False, hcenter=False):
