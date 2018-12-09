@@ -15,7 +15,8 @@ class Graphics:
         self.clock = pygame.time.Clock()
         self.fullscreen = False
 
-        self.TEXT = None
+        self.HEADING = None
+        self.SUBHEADING = None
 
         self.init()
 
@@ -23,11 +24,15 @@ class Graphics:
         pygame.init()
         pygame.font.init()
         self.screen = pygame.display.set_mode((self.width, self.height))
-        self.TEXT = pygame.font.Font("res/fonts/SanFran/SanFranciscoDisplay-Thin.otf", 64)
+        self.HEADING = pygame.font.Font("res/fonts/SanFran/SanFranciscoDisplay-Thin.otf", 64)
+        self.THIN_HEADING = pygame.font.Font("res/fonts/SanFran/SanFranciscoDisplay-Ultralight.otf", 64)
+        self.SUBHEADING = pygame.font.Font("res/fonts/SanFran/SanFranciscoDisplay-Thin.otf", 32)
 
-    def render(self):
+    def render(self, info):
         self.screen.fill(BLACK)
-        self.render_text(self.TEXT, 100, 100, "Hello, Riddhi", hcenter=True)
+        self.render_text(self.THIN_HEADING, 100, 350, "Hello, %s" % info.name, hcenter=True)
+        self.render_text(self.THIN_HEADING, 50, 50, "%s°" % info.weather['item']['condition']['temp'])
+        self.render_text(self.SUBHEADING, 50, 130, "%s" % info.weather['item']['condition']['text'])
         pygame.display.update()
         self.clock.tick(60)
 
@@ -37,6 +42,8 @@ class Graphics:
         surface = font.render(text, 1, WHITE)
         if hcenter:
             x = self.width / 2 - surface.get_width() / 2
+        if vcenter:
+            y = self.height / 2 - surface.get_height() / 2
         self.screen.blit(surface, (x, y))
 
 
