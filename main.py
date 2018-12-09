@@ -2,6 +2,9 @@ import os
 os.environ['PYGAME_FREETYPE'] = '1'
 import json
 import pygame
+from datetime import datetime, date
+from time import strftime
+import calendar
 from pygame.locals import *
 from graphics import Graphics
 from apis import get_weather
@@ -13,6 +16,8 @@ class Info:
         self.name = json['name']
         self.woeid = json['woeid']
         self.weather = None
+        self.date_string = None
+        self.time_string = None
 
 
 def main():
@@ -24,6 +29,8 @@ def main():
 
     info.weather = get_weather(info.woeid)
     
+    last_minute = -1
+
     loop = True
     while(loop):
         for event in pygame.event.get():
@@ -32,6 +39,10 @@ def main():
                     loop = False
             elif event.type == KEYDOWN and event.key == K_RETURN:
                 graphics.toggle_fullscreen()
+        if last_minute != datetime.now().minute:
+            info.time_string = strftime("%-I:%M")
+            info.date_string = calendar.day_name[date.today().weekday()]
+            last_minute = datetime.now().minute
         graphics.render(info)
 
 

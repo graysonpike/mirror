@@ -1,9 +1,6 @@
 import os
 os.environ['PYGAME_FREETYPE'] = '1'
 import pygame
-
-from time import gmtime, strftime
-from datetime import date
 import calendar
 
 WHITE = (255, 255, 255)
@@ -41,8 +38,8 @@ class Graphics:
         self.render_text(self.SUBHEADING, 50, 130, "%s" % info.weather['item']['condition']['text'])
         
         # Clock / Date
-        self.render_text(self.THIN_HEADING, self.width-42, 50, strftime("%-I:%M"), draw_from_left=True)
-        self.render_text(self.SUBHEADING, self.width-50, 130, calendar.day_name[date.today().weekday()], draw_from_left=True)
+        self.render_text(self.THIN_HEADING, self.width-42, 50, info.time_string, draw_from_left=True)
+        self.render_text(self.SUBHEADING, self.width-50, 130, info.date_string, draw_from_left=True)
 
         pygame.display.update()
         self.clock.tick(60)
