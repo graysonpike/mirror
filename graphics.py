@@ -2,6 +2,10 @@ import os
 os.environ['PYGAME_FREETYPE'] = '1'
 import pygame
 
+from time import gmtime, strftime
+from datetime import date
+import calendar
+
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
@@ -30,20 +34,29 @@ class Graphics:
 
     def render(self, info):
         self.screen.fill(BLACK)
+
+        # Weather
         self.render_text(self.THIN_HEADING, 100, 350, "Hello, %s" % info.name, hcenter=True)
         self.render_text(self.THIN_HEADING, 50, 50, "%s°" % info.weather['item']['condition']['temp'])
         self.render_text(self.SUBHEADING, 50, 130, "%s" % info.weather['item']['condition']['text'])
+        
+        # Clock / Date
+        self.render_text(self.THIN_HEADING, self.width-42, 50, strftime("%-I:%M"), draw_from_left=True)
+        self.render_text(self.SUBHEADING, self.width-50, 130, calendar.day_name[date.today().weekday()], draw_from_left=True)
+
         pygame.display.update()
         self.clock.tick(60)
 
 
-    def render_text(self, font, x, y, text, vcenter=False, hcenter=False):
+    def render_text(self, font, x, y, text, vcenter=False, hcenter=False, draw_from_left=False):
         # Render text with anti-aliasing flag set
         surface = font.render(text, 1, WHITE)
         if hcenter:
             x = self.width / 2 - surface.get_width() / 2
         if vcenter:
             y = self.height / 2 - surface.get_height() / 2
+        if draw_from_left:
+            x -= surface.get_width()
         self.screen.blit(surface, (x, y))
 
 

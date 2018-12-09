@@ -17,7 +17,7 @@ class Info:
 
 def main():
     
-    graphics = Graphics(760, 1040)
+    graphics = Graphics(768, 1040)
 
     info_file = open('info.json')
     info = Info(json.load(info_file))
