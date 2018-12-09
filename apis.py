@@ -7,9 +7,7 @@ WEATHER_URL_FORMAT = "https://query.yahooapis.com/v1/public/yql?q=select%%20*%%2
 
 
 def get_weather(woeid):
-	print(WEATHER_URL_FORMAT % woeid)
 	request = requests.get(WEATHER_URL_FORMAT % woeid)
-	print(request)
 	if request.status_code != 200: return None
 	data = request.json()
 	return data['query']['results']['channel']
