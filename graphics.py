@@ -3,6 +3,9 @@ os.environ['PYGAME_FREETYPE'] = '1'
 import pygame
 import calendar
 
+
+FPS = 1
+
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
@@ -38,11 +41,11 @@ class Graphics:
         self.render_text(self.SUBHEADING, 50, 130, "%s" % info.weather['item']['condition']['text'])
         
         # Clock / Date
-        self.render_text(self.THIN_HEADING, self.width-42, 50, info.time_string, draw_from_left=True)
+        self.render_text(self.THIN_HEADING, self.width-45, 50, info.time_string, draw_from_left=True)
         self.render_text(self.SUBHEADING, self.width-50, 130, info.date_string, draw_from_left=True)
 
         pygame.display.update()
-        self.clock.tick(60)
+        self.clock.tick(FPS)
 
 
     def render_text(self, font, x, y, text, vcenter=False, hcenter=False, draw_from_left=False):
