@@ -10,4 +10,4 @@ def get_weather(woeid):
 	request = requests.get(WEATHER_URL_FORMAT % woeid)
 	if request.status_code != 200: return None
 	data = request.json()
-	return data['query']['results']['channel']
+	return data['query']['results']['channel']['item']

@@ -28,21 +28,42 @@ class Graphics:
         self.HEADING = pygame.font.Font("res/fonts/SanFran/SanFranciscoDisplay-Thin.otf", 64)
         self.THIN_HEADING = pygame.font.Font("res/fonts/SanFran/SanFranciscoDisplay-Ultralight.otf", 64)
         self.SUBHEADING = pygame.font.Font("res/fonts/SanFran/SanFranciscoDisplay-Thin.otf", 32)
+        self.TEXT = pygame.font.Font("res/fonts/SanFran/SanFranciscoDisplay-Regular.otf", 16)
 
     def render(self, info):
         self.screen.fill(BLACK)
 
-        # Weather
+        # Greeting
         self.render_text(self.THIN_HEADING, 100, 350, "Hello, %s" % info.name, hcenter=True)
-        self.render_text(self.THIN_HEADING, 50, 50, "%s°" % info.weather['item']['condition']['temp'])
-        self.render_text(self.SUBHEADING, 50, 130, "%s" % info.weather['item']['condition']['text'])
+
+        # Weather
+        self.render_text(self.THIN_HEADING, 50, 50, "%s°" % info.weather['condition']['temp'])
+        self.render_text(self.SUBHEADING, 50, 130, "62°")
+        self.render_text(self.SUBHEADING, 110, 130, "75°")
+        self.render_text(self.SUBHEADING, 50, 180, "%s" % info.weather['condition']['text'])
         
         # Clock / Date
         self.render_text(self.THIN_HEADING, self.width-42, 50, info.time_string, draw_from_left=True)
         self.render_text(self.SUBHEADING, self.width-50, 130, info.date_string, draw_from_left=True)
 
+        # Forecase
+        self.render_forecast(info)
+
         pygame.display.update()
         self.clock.tick(60)
+
+
+    def render_forecast(self, info):
+        print(info.weather.keys())
+        forecast = info.weather['forecast']
+        offset = 0
+        for day in forecast:
+            self.render_text(self.TEXT, 107 + offset, self.height-160, day['day'][0])
+            self.render_text(self.TEXT, 105 + offset, self.height-125, day['high'])
+            self.render_text(self.TEXT, 105 + offset, self.height-100, day['low'])
+            offset += 60
+        # self.render_text(self.SUBHEADING, self.width-50, 130, info.date_string, draw_from_left=True)        
+        pass
 
 
     def render_text(self, font, x, y, text, vcenter=False, hcenter=False, draw_from_left=False):
