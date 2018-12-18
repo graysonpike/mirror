@@ -42,6 +42,7 @@ def main():
             elif event.type == KEYDOWN and event.key == K_RETURN:
                 graphics.toggle_fullscreen()
         if last_minute != datetime.now().minute:
+            info.weather = get_weather(info.woeid)
             sleep(0.01)
             info.time_string = strftime("%-I:%M")
             info.date_string = calendar.day_name[date.today().weekday()] + ", " + calendar.month_abbr[date.today().month] + " " + ordinal(date.today().day)
