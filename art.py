@@ -138,3 +138,52 @@ class Snow():
 	def render(self, delta):
 		for drop in self.drops:
 			drop.render(self.screen, delta)
+
+
+class Rain():
+
+	class Drop():
+
+		def __init__(self, width, height):
+			self.x = randint(0, width)
+			self.y = randint(0, height)
+			self.vx = 1
+			self.vy = randint(8, 10)
+			self.color = randint(50, 75)
+			self.width = width
+			self.height = height
+			self.line_width = 2
+
+		def clamp(self):
+			if self.x > self.width:
+				self.x = 0
+			if self.y > self.height and randint(0,4) == 4:
+				self.x = randint(0, self.width)
+				self.y = 0
+
+		def render(self, screen, delta):
+			self.x += self.vx * delta / 10
+			self.y += self.vy * delta / 10
+			self.clamp()
+			pygame.draw.line(screen,
+			(self.color, self.color, self.color),
+			(self.x, self.y),
+			(self.x + 1, self.y + 10),
+			self.line_width)
+			
+
+	def __init__(self, screen, width, height):
+		self.screen = screen
+		self.width = width
+		self.height = height
+		self.n_drops = 50
+		self.drops = []
+		self.init_drops()
+
+	def init_drops(self):
+		for i in range(self.n_drops):
+			self.drops.append(self.Drop(self.width, self.height))
+
+	def render(self, delta):
+		for drop in self.drops:
+			drop.render(self.screen, delta)
