@@ -49,7 +49,7 @@ class Graphics:
         self.render_text(self.THIN_HEADING, self.width-45, 50, info.time_string, draw_from_left=True)
         self.render_text(self.SUBHEADING, self.width-50, 130, info.date_string, draw_from_left=True)
 
-        # Forecase
+        # Forecast
         self.render_forecast(info)
 
         pygame.display.update()
