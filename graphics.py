@@ -2,9 +2,10 @@ import os
 os.environ['PYGAME_FREETYPE'] = '1'
 import pygame
 import calendar
+from art import Parametric
 
 
-FPS = 1
+FPS = 60
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -19,6 +20,8 @@ class Graphics:
         self.clock = pygame.time.Clock()
         self.fullscreen = False
 
+        self.parametric = None
+
         self.HEADING = None
         self.SUBHEADING = None
 
@@ -27,37 +30,46 @@ class Graphics:
     def init(self):
         pygame.init()
         pygame.font.init()
+
         self.screen = pygame.display.set_mode((self.width, self.height))
+
         self.HEADING = pygame.font.Font("res/fonts/SanFran/SanFranciscoDisplay-Thin.otf", 64)
         self.THIN_HEADING = pygame.font.Font("res/fonts/SanFran/SanFranciscoDisplay-Ultralight.otf", 64)
         self.SUBHEADING = pygame.font.Font("res/fonts/SanFran/SanFranciscoDisplay-Thin.otf", 32)
         self.TEXT = pygame.font.Font("res/fonts/SanFran/SanFranciscoDisplay-Regular.otf", 16)
 
+        self.parametric = Parametric(self.screen, self.width/2, self.height/2)
+
     def render(self, info):
         self.screen.fill(BLACK)
 
         # Greeting
-        self.render_text(self.THIN_HEADING, 100, 350, "Hello, %s" % info.name, hcenter=True)
+        # self.render_text(self.THIN_HEADING, 100, 350, "Hello, %s" % info.name, hcenter=True)
 
-        # Weather
+        self.parametric.render()
+
+        # self.render_weather(info)
+        # self.render_clock_and_date(info)
+        # self.render_forecast(info)
+
+        pygame.display.update()
+
+        self.clock.tick(FPS)
+
+
+    def render_clock_and_date(self, info):
+        self.render_text(self.THIN_HEADING, self.width-45, 50, info.time_string, draw_from_left=True)
+        self.render_text(self.SUBHEADING, self.width-50, 130, info.date_string, draw_from_left=True)
+
+
+    def render_weather(self, info):
         self.render_text(self.THIN_HEADING, 50, 50, "%s°" % info.weather['condition']['temp'])
         self.render_text(self.SUBHEADING, 50, 130, "62°")
         self.render_text(self.SUBHEADING, 110, 130, "75°")
         self.render_text(self.SUBHEADING, 50, 180, "%s" % info.weather['condition']['text'])
-        
-        # Clock / Date
-        self.render_text(self.THIN_HEADING, self.width-45, 50, info.time_string, draw_from_left=True)
-        self.render_text(self.SUBHEADING, self.width-50, 130, info.date_string, draw_from_left=True)
-
-        # Forecast
-        self.render_forecast(info)
-
-        pygame.display.update()
-        self.clock.tick(FPS)
 
 
     def render_forecast(self, info):
-        print(info.weather.keys())
         forecast = info.weather['forecast']
         offset = 0
         for day in forecast:

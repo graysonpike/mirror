@@ -41,7 +41,7 @@ def main():
                     loop = False
             elif event.type == KEYDOWN and event.key == K_RETURN:
                 graphics.toggle_fullscreen()
-        if last_minute != datetime.now().minute:
+        if False and last_minute != datetime.now().minute:
             info.weather = get_weather(info.woeid)
             sleep(0.01)
             info.time_string = strftime("%-I:%M")
