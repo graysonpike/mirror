@@ -2,7 +2,7 @@ import os
 os.environ['PYGAME_FREETYPE'] = '1'
 import pygame
 import calendar
-from art import Parametric
+from art import Snow
 
 
 FPS = 60
@@ -38,19 +38,21 @@ class Graphics:
         self.SUBHEADING = pygame.font.Font("res/fonts/SanFran/SanFranciscoDisplay-Thin.otf", 32)
         self.TEXT = pygame.font.Font("res/fonts/SanFran/SanFranciscoDisplay-Regular.otf", 16)
 
-        self.parametric = Parametric(self.screen, self.width/2, self.height/2)
+        # self.parametric = Parametric(self.screen, self.width/2, self.height/2)
+        self.snow = Snow(self.screen, self.width, self.height)
 
     def render(self, info):
         self.screen.fill(BLACK)
 
         # Greeting
-        # self.render_text(self.THIN_HEADING, 100, 350, "Hello, %s" % info.name, hcenter=True)
+        self.render_text(self.THIN_HEADING, 100, 350, "Hello, %s" % info.name, hcenter=True)
 
-        self.parametric.render()
+        # self.parametric.render()
+        self.snow.render(self.clock.get_time())
 
-        # self.render_weather(info)
-        # self.render_clock_and_date(info)
-        # self.render_forecast(info)
+        self.render_weather(info)
+        self.render_clock_and_date(info)
+        self.render_forecast(info)
 
         pygame.display.update()
 
