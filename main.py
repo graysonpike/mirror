@@ -22,8 +22,26 @@ class Info:
         self.weather = None
         self.date_string = None
         self.time_string = None
+        self.quote_strings = None
         self.snow_enabled = False
         self.rain_enabled = False
+
+
+def format_quote_strings(quote, author):
+    result = [""]
+    chars = 0
+    line = 0
+    for i in range(len(quote)):
+        chars += 1
+        if chars > 70:
+            if quote[i] == ' ':
+                chars = 0
+                result.append("")
+                line += 1
+                continue
+        result[line] += quote[i]
+    result.append(author)
+    return result
 
 
 def main():
@@ -36,6 +54,7 @@ def main():
     info.weather = get_weather(info.woeid, info.yahoo_client_key, info.yahoo_client_secret)
     
     last_minute = -1
+    last_day = -1
 
     loop = True
     while(loop):
@@ -58,6 +77,9 @@ def main():
                 sleep(0.01)
                 info.date_string = calendar.day_name[date.today().weekday()] + ", " + calendar.month_abbr[date.today().month] + " " + ordinal(date.today().day)
             last_minute = now.minute
+            if now.day != last_day:
+                info.quote_strings = format_quote_strings("This is your life. Do what you love, and do it often.", "Holstee Manifesto")
+
         graphics.render(info)
 
 

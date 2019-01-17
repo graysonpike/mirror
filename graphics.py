@@ -53,6 +53,7 @@ class Graphics:
             self.rain.render(self.clock.get_time())
 
         self.render_greeting(info)
+        self.render_quote(info)
         self.render_weather(info)
         self.render_clock_and_date(info)
         self.render_forecast(info)
@@ -99,9 +100,21 @@ class Graphics:
         self.render_text(self.THIN_HEADING, 0, 700, "%s, %s" % (salutation, info.name), hcenter=True)
 
 
-    def render_text(self, font, x, y, text, vcenter=False, hcenter=False, draw_from_left=False):
+    def render_quote(self, info):
+        offset = 0 - len(info.quote_strings * 20)
+        line_num = 0
+        color = WHITE
+        for line in info.quote_strings:
+            if line_num == len(info.quote_strings) - 1:
+                color = (100, 100, 100, 255)
+            self.render_text(self.TEXT, 0, 820 + offset, info.quote_strings[line_num], hcenter=True, color=color)
+            line_num += 1
+            offset += 20
+
+
+    def render_text(self, font, x, y, text, vcenter=False, hcenter=False, draw_from_left=False, color=WHITE):
         # Render text with anti-aliasing flag set
-        surface = font.render(text, 1, WHITE)
+        surface = font.render(text, 1, color)
         if hcenter:
             x = self.width / 2 - surface.get_width() / 2
         if vcenter:
