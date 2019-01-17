@@ -2,6 +2,7 @@ import os
 os.environ['PYGAME_FREETYPE'] = '1'
 import pygame
 import calendar
+import datetime
 from art import Parametric, Rain, Snow
 
 
@@ -51,9 +52,7 @@ class Graphics:
         if info.rain_enabled:
             self.rain.render(self.clock.get_time())
 
-        # Greeting
-        self.render_text(self.THIN_HEADING, 100, 700, "Hello, %s" % info.name, hcenter=True)
-
+        self.render_greeting(info)
         self.render_weather(info)
         self.render_clock_and_date(info)
         self.render_forecast(info)
@@ -86,6 +85,18 @@ class Graphics:
             offset += 60
         # self.render_text(self.SUBHEADING, self.width-50, 130, info.date_string, draw_from_left=True)
         pass
+
+
+    def render_greeting(self, info):
+        salutation = None
+        hour = datetime.datetime.now().hour
+        if hour >= 4 and hour <= 11:
+            salutation = "Good morning"
+        if hour >= 12 and hour <= 18:
+            salutation = "Good afternoon"
+        else:
+            salutation = "Good evening"
+        self.render_text(self.THIN_HEADING, 0, 700, "%s, %s" % (salutation, info.name), hcenter=True)
 
 
     def render_text(self, font, x, y, text, vcenter=False, hcenter=False, draw_from_left=False):
