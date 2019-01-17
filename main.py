@@ -22,6 +22,8 @@ class Info:
         self.weather = None
         self.date_string = None
         self.time_string = None
+        self.snow_enabled = False
+        self.rain_enabled = False
 
 
 def main():
@@ -41,8 +43,13 @@ def main():
             if event.type == QUIT or \
                 (event.type == KEYDOWN and event.key == K_ESCAPE):
                     loop = False
-            elif event.type == KEYDOWN and event.key == K_RETURN:
-                graphics.toggle_fullscreen()
+            if event.type == KEYDOWN:
+                if event.key == K_s:
+                    info.snow_enabled = not info.snow_enabled
+                if event.key == K_r:
+                    info.rain_enabled = not info.rain_enabled
+                if event.key == K_RETURN:
+                    graphics.toggle_fullscreen()
         if last_minute != datetime.now().minute:
             info.weather = get_weather(info.woeid, info.yahoo_client_key, info.yahoo_client_secret)
             sleep(0.01)

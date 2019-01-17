@@ -40,14 +40,16 @@ class Graphics:
 
         # self.parametric = Parametric(self.screen, self.width/2, self.height/2)
         self.snow = Snow(self.screen, self.width, self.height)
-        # self.rain = Rain(self.screen, self.width, self.height)
+        self.rain = Rain(self.screen, self.width, self.height)
 
     def render(self, info):
         self.screen.fill(BLACK)
 
         # self.parametric.render()
-        self.snow.render(self.clock.get_time())
-        # self.rain.render(self.clock.get_time())
+        if info.snow_enabled:
+            self.snow.render(self.clock.get_time())
+        if info.rain_enabled:
+            self.rain.render(self.clock.get_time())
 
         # Greeting
         self.render_text(self.THIN_HEADING, 100, 350, "Hello, %s" % info.name, hcenter=True)
