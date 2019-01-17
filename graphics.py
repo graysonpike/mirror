@@ -39,16 +39,16 @@ class Graphics:
         self.TEXT = pygame.font.Font("res/fonts/SanFran/SanFranciscoDisplay-Regular.otf", 16)
 
         # self.parametric = Parametric(self.screen, self.width/2, self.height/2)
-        # self.snow = Snow(self.screen, self.width, self.height)
-        self.rain = Rain(self.screen, self.width, self.height)
+        self.snow = Snow(self.screen, self.width, self.height)
+        # self.rain = Rain(self.screen, self.width, self.height)
 
     def render(self, info):
         self.screen.fill(BLACK)
 
         # self.parametric.render()
-        # self.snow.render(self.clock.get_time())
-        self.rain.render(self.clock.get_time())
-        
+        self.snow.render(self.clock.get_time())
+        # self.rain.render(self.clock.get_time())
+
         # Greeting
         self.render_text(self.THIN_HEADING, 100, 350, "Hello, %s" % info.name, hcenter=True)
 
@@ -56,7 +56,7 @@ class Graphics:
         self.render_clock_and_date(info)
         self.render_forecast(info)
 
-        
+
         pygame.display.update()
 
         self.clock.tick(FPS)
@@ -68,21 +68,21 @@ class Graphics:
 
 
     def render_weather(self, info):
-        self.render_text(self.THIN_HEADING, 50, 50, "%s°" % info.weather['condition']['temp'])
+        self.render_text(self.THIN_HEADING, 50, 50, "%s°" % info.weather['current_observation']['condition']['temperature'])
         self.render_text(self.SUBHEADING, 50, 130, "62°")
         self.render_text(self.SUBHEADING, 110, 130, "75°")
-        self.render_text(self.SUBHEADING, 50, 180, "%s" % info.weather['condition']['text'])
+        self.render_text(self.SUBHEADING, 50, 180, "%s" % info.weather['current_observation']['condition']['text'])
 
 
     def render_forecast(self, info):
-        forecast = info.weather['forecast']
+        forecast = info.weather['forecasts']
         offset = 0
         for day in forecast:
             self.render_text(self.TEXT, 107 + offset, self.height-160, day['day'][0])
-            self.render_text(self.TEXT, 105 + offset, self.height-125, day['high'])
-            self.render_text(self.TEXT, 105 + offset, self.height-100, day['low'])
+            self.render_text(self.TEXT, 105 + offset, self.height-125, str(day['high']))
+            self.render_text(self.TEXT, 105 + offset, self.height-100, str(day['low']))
             offset += 60
-        # self.render_text(self.SUBHEADING, self.width-50, 130, info.date_string, draw_from_left=True)        
+        # self.render_text(self.SUBHEADING, self.width-50, 130, info.date_string, draw_from_left=True)
         pass
 
 

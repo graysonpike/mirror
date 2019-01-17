@@ -17,6 +17,8 @@ class Info:
     def __init__(self, json):
         self.name = json['name']
         self.woeid = json['woeid']
+        self.yahoo_client_key = json['yahoo_client_key']
+        self.yahoo_client_secret = json['yahoo_client_secret']
         self.weather = None
         self.date_string = None
         self.time_string = None
@@ -29,7 +31,7 @@ def main():
     info_file = open('info.json')
     info = Info(json.load(info_file))
 
-    info.weather = get_weather(info.woeid)
+    info.weather = get_weather(info.woeid, info.yahoo_client_key, info.yahoo_client_secret)
     
     last_minute = -1
 
@@ -42,7 +44,7 @@ def main():
             elif event.type == KEYDOWN and event.key == K_RETURN:
                 graphics.toggle_fullscreen()
         if last_minute != datetime.now().minute:
-            info.weather = get_weather(info.woeid)
+            info.weather = get_weather(info.woeid, info.yahoo_client_key, info.yahoo_client_secret)
             sleep(0.01)
             info.time_string = strftime("%-I:%M")
             info.date_string = calendar.day_name[date.today().weekday()] + ", " + calendar.month_abbr[date.today().month] + " " + ordinal(date.today().day)

@@ -1,13 +1,17 @@
 import requests
 import json
+from requests_oauthlib import OAuth1
 
 
-WEATHER_URL_FORMAT = "https://query.yahooapis.com/v1/public/yql?q=select%%20*%%20from%%20weather.forecast%%20where%%20woeid%%20%%3D%%20%s&format=json&env=store%%3A%%2F%%2Fdatatables.org%%2Falltableswithkeys"
+WEATHER_URL_FORMAT = "https://weather-ydn-yql.media.yahoo.com/forecastrss?&format=json&woeid=%s"
 
 
-
-def get_weather(woeid):
-	request = requests.get(WEATHER_URL_FORMAT % woeid)
-	if request.status_code != 200: return None
+def get_weather(woeid, client_key, client_secret):
+	auth = OAuth1(client_key, client_secret=client_secret)
+	request = requests.get(WEATHER_URL_FORMAT % woeid, auth=auth)
+	if request.status_code != 200:
+		print("Recieved non-200 status code from Yahoo weather API call:")
+		print(request.text)
+		return None
 	data = request.json()
-	return data['query']['results']['channel']['item']
+	return data
