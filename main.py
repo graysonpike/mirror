@@ -51,11 +51,12 @@ def main():
                 if event.key == K_RETURN:
                     graphics.toggle_fullscreen()
         now = datetime.now()
-        if last_minute != now.minute and (now.minute == 0 or last_minute == -1):
-            info.weather = get_weather(info.woeid, info.yahoo_client_key, info.yahoo_client_secret)
-            sleep(0.01)
+        if last_minute != now.minute:
             info.time_string = strftime("%-I:%M")
-            info.date_string = calendar.day_name[date.today().weekday()] + ", " + calendar.month_abbr[date.today().month] + " " + ordinal(date.today().day)
+            if now.minute == 0 or last_minute == -1:
+                info.weather = get_weather(info.woeid, info.yahoo_client_key, info.yahoo_client_secret)
+                sleep(0.01)
+                info.date_string = calendar.day_name[date.today().weekday()] + ", " + calendar.month_abbr[date.today().month] + " " + ordinal(date.today().day)
             last_minute = now.minute
         graphics.render(info)
 
