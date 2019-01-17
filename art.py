@@ -101,7 +101,7 @@ class Snow():
 			self.y = randint(0, height)
 			self.vx = randint(1, 5)
 			self.vy = randint(5, 10)
-			self.color = randint(50, 100)
+			self.color = randint(30, 60)
 			self.width = width
 			self.height = height
 			self.line_width = 2
