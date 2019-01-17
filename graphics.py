@@ -34,7 +34,7 @@ class Graphics:
         self.screen = pygame.display.set_mode((self.width, self.height))
 
         self.HEADING = pygame.font.Font("res/fonts/SanFran/SanFranciscoDisplay-Thin.otf", 64)
-        self.THIN_HEADING = pygame.font.Font("res/fonts/SanFran/SanFranciscoDisplay-Ultralight.otf", 64)
+        self.THIN_HEADING = pygame.font.Font("res/fonts/SanFran/SanFranciscoDisplay-Thin.otf", 32)
         self.SUBHEADING = pygame.font.Font("res/fonts/SanFran/SanFranciscoDisplay-Thin.otf", 32)
         self.TEXT = pygame.font.Font("res/fonts/SanFran/SanFranciscoDisplay-Regular.otf", 16)
 
@@ -52,7 +52,7 @@ class Graphics:
             self.rain.render(self.clock.get_time())
 
         # Greeting
-        self.render_text(self.THIN_HEADING, 100, 350, "Hello, %s" % info.name, hcenter=True)
+        self.render_text(self.THIN_HEADING, 100, 700, "Hello, %s" % info.name, hcenter=True)
 
         self.render_weather(info)
         self.render_clock_and_date(info)
@@ -66,14 +66,14 @@ class Graphics:
 
     def render_clock_and_date(self, info):
         self.render_text(self.THIN_HEADING, self.width-45, 50, info.time_string, draw_from_left=True)
-        self.render_text(self.SUBHEADING, self.width-50, 130, info.date_string, draw_from_left=True)
+        self.render_text(self.TEXT, self.width-50, 90, info.date_string, draw_from_left=True)
 
 
     def render_weather(self, info):
         self.render_text(self.THIN_HEADING, 50, 50, "%s°" % info.weather['current_observation']['condition']['temperature'])
-        self.render_text(self.SUBHEADING, 50, 130, "62°")
-        self.render_text(self.SUBHEADING, 110, 130, "75°")
-        self.render_text(self.SUBHEADING, 50, 180, "%s" % info.weather['current_observation']['condition']['text'])
+        self.render_text(self.TEXT, 50, 90, "62°")
+        self.render_text(self.TEXT, 80, 90, "75°")
+        self.render_text(self.TEXT, 50, 110, "%s" % info.weather['current_observation']['condition']['text'])
 
 
     def render_forecast(self, info):
