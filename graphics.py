@@ -95,7 +95,7 @@ class Graphics:
             salutation = "Good morning"
         if hour >= 12 and hour <= 18:
             salutation = "Good afternoon"
-        else:
+        if hour >= 19:
             salutation = "Good evening"
         self.render_text(self.THIN_HEADING, 0, 700, "%s, %s" % (salutation, info.name), hcenter=True)
 
